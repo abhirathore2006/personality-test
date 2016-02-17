@@ -1,12 +1,22 @@
 var path = require("path");
+var webpack = require("webpack");
+
 module.exports = {
-    'entry' : './client.js',
+    'entry' : [
+        'webpack-hot-middleware/client',
+        './client.js'
+        
+        ],
     'output' : {
         path: path.resolve("./public"),
         filename : 'bundle.js',
         publicPath:'/'
     },
-    
+    plugins:[
+		new webpack.optimize.OccurrenceOrderPlugin(),
+		new webpack.HotModuleReplacementPlugin(),
+		new webpack.NoErrorsPlugin()
+	],
    module:{ 
        loaders : [
                 {
@@ -14,7 +24,7 @@ module.exports = {
                     exclude : /node_modules/,
                     loader : 'babel-loader',
                     query: {
-                        presets: ['react','es2015','stage-0']
+                        presets: ['react','es2015','stage-0','react-hmre']
                     }
                     
                 },
