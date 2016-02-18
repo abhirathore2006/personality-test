@@ -8,6 +8,10 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import { Row,Col }  from 'react-bootstrap';
 import Questions from './Questions';
 
+import  { connect } from 'react-redux'
+import actions from './redux/actions'
+import { bindActionCreators } from 'redux'
+
 import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import Theme from './theme/theme';
 
@@ -33,7 +37,7 @@ class App extends Component {
    handleClick(){
        
        var elem =document.getElementsByClassName("question-section");
-       console.log(elem)
+      // console.log(elem)
        elem[0].scrollIntoView(true);
       
    }
@@ -45,7 +49,7 @@ class App extends Component {
                     <ToolbarTitle text="Personality Test" />
                    </Toolbar>
                    
-                   <Row  className="container" style={{textAlign:'center',minHeight:550}}>
+                   <Row  className="" style={{textAlign:'center',minHeight:550}}>
                        <Col className="" lg={12}  >
                         <h1 style={{paddingTop:'80px'}}>Some random Heading here</h1>
                         <h2 >Some random subheadeing </h2>
@@ -54,7 +58,7 @@ class App extends Component {
                     </Row>
                     <Row className="question-section" style={{minHeight:470}}>
                         
-                           <Questions />
+                           <Questions answer={this.props.answer} dob={this.props.dob} email={this.props.email} actions={this.props.actions} />
                         
                     </Row>
                     
@@ -64,4 +68,15 @@ class App extends Component {
     }
 }
 
-export default App
+function mapStateToProps(state){
+    return state
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        actions: bindActionCreators(actions,dispatch)
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
